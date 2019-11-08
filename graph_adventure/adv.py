@@ -4,6 +4,21 @@ from world import World
 
 import random
 
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
+        return len(self.stack) 
+
 # Load world
 world = World()
 
@@ -19,9 +34,53 @@ world.loadGraph(roomGraph)
 world.printRooms()
 player = Player("Name", world.startingRoom)
 
-
 # FILL THIS IN
 traversalPath = ['n', 's']
+
+# Create an empty stack and push the starting room ID
+stack = Stack()
+stack.push(player.currentRoom.id)
+# Create a Set to store visited rooms
+visited = set()
+# While the stack is not empty...
+while stack.size() > 0:
+    # Pop the first room
+    room = stack.pop()
+    print("ROOM: ", room)
+    # If that room has not been visited...
+    if room not in visited:
+        # Mark it as visited...
+        visited.add(room)
+        # Then add all of its neighbors to the top of the stack
+
+        directions = roomGraph.get(room)[1]
+
+        new_directions = []
+
+        if "n" in directions:
+            new_directions.append(directions["n"])
+        else:
+            new_directions.append("?n")
+
+        if "e" in directions:
+            new_directions.append(directions["e"])
+        else:
+            new_directions.append("?e")
+        
+        if "s" in directions:
+            new_directions.append(directions["s"])
+        else:
+            new_directions.append("?s")
+        
+        if "w" in directions:
+            new_directions.append(directions["w"])
+        else:
+            new_directions.append("?w")
+
+        # print("n_d", new_directions)
+
+        for i in new_directions:
+            stack.push(i)
 
 
 # TRAVERSAL TEST
