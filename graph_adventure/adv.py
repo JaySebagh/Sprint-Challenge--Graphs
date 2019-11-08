@@ -50,3 +50,52 @@ else:
 #         player.travel(cmds[0], True)
 #     else:
 #         print("I did not understand that command.")
+
+
+# ATTEMPT 1: Does not work for line 15, eventually gets stuck in a loop
+    # attempt to move N
+    #   if you can move N, keep going
+    #   if you cannot move North, attempt W or E
+    #       if you can move W or E keep going in that direction
+    #       if you cannot go N W E then go S
+    #       ...
+
+    # Update the direction attempts based off the direction
+    #   N > E > W > S
+    #   E > N > S > W
+    #   S > E > W > N
+    #   W > N > S > E 
+    # Always go in the opposite axis first, then the opposite direction
+    # First attempt N pattern, if it fails at one of the directions, follow that direction's pattern
+
+# ATTEMPT 2:
+    # Attempt to go N E W
+    # If you can, then go in that direction
+    # If you cannot, go back one and attempt again
+    # Kinda tricky to write out while taking into consideration paths you've visited
+
+    # attempt N
+    #   Keep going N
+    # attempt E
+    #   attempt N again
+    # attempt W
+    #   attempt N again
+    # attempt S
+
+    # But how do you know if every room has been visited??
+
+# ATTEMPT 3:
+    # Try running a traversal to get a list of every possible path?
+    # Might be too many moves though...
+    # Maybe find a path that has contains a room of another path that starts with that room?
+        # Might be difficult to write out...
+
+# ATTEMPT 4:
+    # attempt moving N E W S and keep track of visited rooms
+    # If you attempt to move but the room has been visited, try the other directions
+    # If they have all been visited, move in opposite direction once, regardless if it has been visited or not
+    # stop once visited rooms reaches 500
+
+# Attempt 5:
+    # How do you keep track of visited but know when to go through visited again???
+
