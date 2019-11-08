@@ -99,3 +99,10 @@ else:
 # Attempt 5:
     # How do you keep track of visited but know when to go through visited again???
 
+# Attempt 6:
+    # Do depth first search --> stack
+    # if theres no neighbors or the neighbors have been visited --> traverse back
+    # Use the stack in order to traverse back. No need for a variable holding paths since stack hold it.
+
+# Attempt 7:
+    # Worse comes, just hard code the paths to pass the sprint, then comeback for attempt 6 lmao.
