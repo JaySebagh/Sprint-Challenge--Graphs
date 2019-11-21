@@ -4,6 +4,21 @@ from world import World
 
 import random
 
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
+        return len(self.stack) 
+
 # Load world
 world = World()
 
@@ -19,9 +34,53 @@ world.loadGraph(roomGraph)
 world.printRooms()
 player = Player("Name", world.startingRoom)
 
-
 # FILL THIS IN
 traversalPath = ['n', 's']
+
+# Create an empty stack and push the starting room ID
+stack = Stack()
+stack.push(player.currentRoom.id)
+# Create a Set to store visited rooms
+visited = set()
+# While the stack is not empty...
+while stack.size() > 0:
+    # Pop the first room
+    room = stack.pop()
+    print("ROOM: ", room)
+    # If that room has not been visited...
+    if room not in visited:
+        # Mark it as visited...
+        visited.add(room)
+        # Then add all of its neighbors to the top of the stack
+
+        directions = roomGraph.get(room)[1]
+
+        new_directions = []
+
+        if "n" in directions:
+            new_directions.append(directions["n"])
+        else:
+            new_directions.append("?n")
+
+        if "e" in directions:
+            new_directions.append(directions["e"])
+        else:
+            new_directions.append("?e")
+        
+        if "s" in directions:
+            new_directions.append(directions["s"])
+        else:
+            new_directions.append("?s")
+        
+        if "w" in directions:
+            new_directions.append(directions["w"])
+        else:
+            new_directions.append("?w")
+
+        # print("n_d", new_directions)
+
+        for i in new_directions:
+            stack.push(i)
 
 
 # TRAVERSAL TEST
@@ -50,3 +109,59 @@ else:
 #         player.travel(cmds[0], True)
 #     else:
 #         print("I did not understand that command.")
+
+
+# ATTEMPT 1: Does not work for line 15, eventually gets stuck in a loop
+    # attempt to move N
+    #   if you can move N, keep going
+    #   if you cannot move North, attempt W or E
+    #       if you can move W or E keep going in that direction
+    #       if you cannot go N W E then go S
+    #       ...
+
+    # Update the direction attempts based off the direction
+    #   N > E > W > S
+    #   E > N > S > W
+    #   S > E > W > N
+    #   W > N > S > E 
+    # Always go in the opposite axis first, then the opposite direction
+    # First attempt N pattern, if it fails at one of the directions, follow that direction's pattern
+
+# ATTEMPT 2:
+    # Attempt to go N E W
+    # If you can, then go in that direction
+    # If you cannot, go back one and attempt again
+    # Kinda tricky to write out while taking into consideration paths you've visited
+
+    # attempt N
+    #   Keep going N
+    # attempt E
+    #   attempt N again
+    # attempt W
+    #   attempt N again
+    # attempt S
+
+    # But how do you know if every room has been visited??
+
+# ATTEMPT 3:
+    # Try running a traversal to get a list of every possible path?
+    # Might be too many moves though...
+    # Maybe find a path that has contains a room of another path that starts with that room?
+        # Might be difficult to write out...
+
+# ATTEMPT 4:
+    # attempt moving N E W S and keep track of visited rooms
+    # If you attempt to move but the room has been visited, try the other directions
+    # If they have all been visited, move in opposite direction once, regardless if it has been visited or not
+    # stop once visited rooms reaches 500
+
+# Attempt 5:
+    # How do you keep track of visited but know when to go through visited again???
+
+# Attempt 6:
+    # Do depth first search --> stack
+    # if theres no neighbors or the neighbors have been visited --> traverse back
+    # Use the stack in order to traverse back. No need for a variable holding paths since stack hold it.
+
+# Attempt 7:
+    # Worse comes, just hard code the paths to pass the sprint, then comeback for attempt 6 lmao.
